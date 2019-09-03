@@ -4,13 +4,12 @@ import {
   View,
   Layer,
   Group,
-  Path,
   Circle,
   Ellipse,
-  Rectangle,
-  PointText,
-  Tool
+  PointText
 } from "react-paper-bindings";
+import { Button } from "@rmwc/button";
+import "@material/button/dist/mdc.button.css";
 
 class Landing extends Component {
   render() {
@@ -64,8 +63,13 @@ class Landing extends Component {
     };
     return (
       <>
-        <h1>Landing</h1>
-        <Paper width={500} height={500} />
+        <div className="container">
+          <div className="header">
+            <h1>Landing</h1>
+            <Button label="Home" raised />
+          </div>
+          <Paper width={500} height={500} />
+        </div>
       </>
     );
   }

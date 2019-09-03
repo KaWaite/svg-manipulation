@@ -2,6 +2,8 @@
 
 // ---------- All Variables ---------- //
 
+const shapes = [];
+
 // ----- BuildZone ----- //
 const buildZone = new Path.Rectangle({
   x: 500,
@@ -12,6 +14,7 @@ const buildZone = new Path.Rectangle({
   fillColor: "lightgrey",
   strokeColor: "red"
 });
+shapes.push(buildZone);
 
 const circ = new Path.Circle({
   center: buildZone.bounds.center,
@@ -29,10 +32,11 @@ let down = false;
 
 // ----- Rotatable Square ----- //
 var square1 = createSquare([200, 100]);
+shapes.push(square1);
 
 // ---------- Functions ---------- //
 // Set Dimensions
-Dimensions();
+
 // Buildable?
 target.onMouseDown = e => {
   down = true;
@@ -73,41 +77,28 @@ function createSquare(position) {
     point: [0, 0],
     size: [50, 50],
     strokeColor: "black",
-    fillColor: [0.1, 0.7, 1],
-    name: "rotatableSquare"
+    fillColor: "green"
   });
-  square.pivot = square.bounds.center;
-  square.applyMatrix = false;
-  square.position = position;
+  let textX = new PointText({
+    position: [square.bounds.topCenter.x, square.bounds.topCenter.y - 8],
+    content: square.bounds.width + "m",
+    fillColor: "black",
+    justification: "center",
+    fontSize: 12
+  });
+  let textY = new PointText({
+    position: [square.bounds.leftCenter.x - 20, square.bounds.leftCenter.y],
+    content: square.bounds.height + "m",
+    fillColor: "black",
+    justification: "center",
+    fontSize: 12
+  });
+  let group = new Group(square, textX, textY);
+  group.pivot = square.bounds.center;
+  group.applyMatrix = false;
+  group.position = position;
 
-  return square;
-}
-
-// ---------Dimensions---------- //
-function Dimensions() {
-  const shapes = [square1, buildZone];
-  for (let i = 0; i < shapes.length; i++) {
-    var textX = new PointText({
-      position: [
-        shapes[i].bounds.topCenter.x,
-        shapes[i].bounds.topCenter.y - 8
-      ],
-      content: shapes[i].bounds.x + "m",
-      fillColor: "black",
-      justification: "center",
-      fontSize: 12
-    });
-    var textXY = new PointText({
-      position: [
-        shapes[i].bounds.leftCenter.x - 20,
-        shapes[i].bounds.leftCenter.y
-      ],
-      content: shapes[i].bounds.y + "m",
-      fillColor: "black",
-      justification: "center",
-      fontSize: 12
-    });
-  }
+  return group;
 }
 
 view.onResize = function(event) {
